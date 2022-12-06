@@ -21,9 +21,40 @@ class _OrderDetailsScreenViewState extends State<OrderDetailsScreenView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Order Number: Order Number"),
-            SizedBox(height: 1.5.h),
-            const Text("Order Status: Completed"),
+            SizedBox(height: 2.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Order Number",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                    SizedBox(height: 0.5.h),
+                    Text(
+                      "December 3, 2022",
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(0.6),
+                        fontSize: 15.sp,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  "Completed",
+                  style: TextStyle(
+                    color: Colors.green,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 2.h),
             const Divider(),
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
@@ -40,12 +71,27 @@ class _OrderDetailsScreenViewState extends State<OrderDetailsScreenView> {
                         Container(
                           height: 20.w,
                           width: 20.w,
-                          color: Theme.of(context).primaryColor,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Theme.of(context).primaryColor),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Image.asset("assets/images/flutter-logo.png"),
                         ),
                         SizedBox(width: 3.w),
-                        const Text("Menu Item"),
+                        Text(
+                          "Menu Item",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                          ),
+                        ),
                         const Spacer(),
-                        const Text("₱ 175.00"),
+                        Text(
+                          "₱ 100.00",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -53,19 +99,42 @@ class _OrderDetailsScreenViewState extends State<OrderDetailsScreenView> {
               },
             ),
             const Divider(),
+            SizedBox(height: 2.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text("Subtotal"),
-                Text("₱ 350.00"),
+              children: [
+                Text(
+                  "Subtotal",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                  ),
+                ),
+                Text(
+                  "₱ 200.00",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                  ),
+                ),
               ],
             ),
-            SizedBox(height: 1.5.h),
+            SizedBox(height: 1.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text("TOTAL"),
-                Text("₱ 350.00"),
+              children: [
+                Text(
+                  "Total",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "₱ 200.00",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ],

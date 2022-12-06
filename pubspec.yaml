@@ -38,6 +38,9 @@ dependencies:
   # Responsive Sizer helps implement a responsive layout by providing helper widgets and extensions.
   responsive_sizer: ^3.1.1
 
+  # A Flutter package for generating random sentences and paragraphs.
+  flutter_lorem: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

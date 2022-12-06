@@ -1,5 +1,5 @@
-import 'package:restaurant/screens/menu_screen/widgets/custom_menu_item.dart';
 import 'package:restaurant/screens/cart_screen/cart_screen_view.dart';
+import 'package:restaurant/screens/menu_screen/widgets/custom_menu_item.dart';
 import 'package:restaurant/screens/order_history_screen/order_history_screen_view.dart';
 import 'package:restaurant/screens/signin_screen/signin_screen_view.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,26 @@ class _MenuScreenViewState extends State<MenuScreenView> {
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
               ),
-              child: const Center(child: Text("Profile Photo")),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircleAvatar(
+                    radius: 10.w,
+                    backgroundColor: Colors.white,
+                    backgroundImage:
+                        const AssetImage("assets/images/flutter-logo.png"),
+                  ),
+                  SizedBox(height: 0.5.h),
+                  Text(
+                    "John Doe",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.sp,
+                    ),
+                  ),
+                ],
+              ),
             ),
             ListTile(
               onTap: () {
@@ -52,8 +71,16 @@ class _MenuScreenViewState extends State<MenuScreenView> {
                   ),
                 );
               },
-              leading: const Icon(Icons.list_alt_rounded),
-              title: const Text("Order History"),
+              leading: Icon(
+                Icons.list_alt_rounded,
+                color: Colors.black.withOpacity(0.8),
+              ),
+              title: Text(
+                "Order History",
+                style: TextStyle(
+                  fontSize: 16.sp,
+                ),
+              ),
             ),
             ListTile(
               onTap: () {
@@ -64,13 +91,29 @@ class _MenuScreenViewState extends State<MenuScreenView> {
                   ),
                 );
               },
-              leading: const Icon(Icons.login_rounded),
-              title: const Text("Sign In"),
+              leading: Icon(
+                Icons.login_rounded,
+                color: Colors.black.withOpacity(0.8),
+              ),
+              title: Text(
+                "Sign In",
+                style: TextStyle(
+                  fontSize: 16.sp,
+                ),
+              ),
             ),
             ListTile(
               onTap: () {},
-              leading: const Icon(Icons.logout_rounded),
-              title: const Text("Sign Out"),
+              leading: Icon(
+                Icons.logout_rounded,
+                color: Colors.black.withOpacity(0.8),
+              ),
+              title: Text(
+                "Sign Out",
+                style: TextStyle(
+                  fontSize: 16.sp,
+                ),
+              ),
             ),
           ],
         ),
@@ -84,7 +127,12 @@ class _MenuScreenViewState extends State<MenuScreenView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 2.5.h),
-                const Text("Menu Group"),
+                Text(
+                  "Menu Group",
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                  ),
+                ),
                 SizedBox(height: 1.5.h),
                 GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),

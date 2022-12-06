@@ -1,5 +1,6 @@
 import 'package:restaurant/screens/splash_screen/splash_screen_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() {
@@ -11,11 +12,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
-        return const MaterialApp(
+        return MaterialApp(
           title: "Flutter Restaurant",
-          home: SplashScreenView(),
+          home: const SplashScreenView(),
+          theme: Theme.of(context).copyWith(
+            pageTransitionsTheme: const PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+              },
+            ),
+          ),
         );
       },
     );

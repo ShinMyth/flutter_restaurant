@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_lorem/flutter_lorem.dart';
 
 class MenuItemScreenView extends StatefulWidget {
   const MenuItemScreenView({Key? key}) : super(key: key);
@@ -22,18 +23,36 @@ class _MenuItemScreenViewState extends State<MenuItemScreenView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              color: Theme.of(context).primaryColor,
+              decoration: BoxDecoration(
+                border: Border.all(color: Theme.of(context).primaryColor),
+                borderRadius: BorderRadius.circular(15),
+              ),
               height: 20.h,
-              child: const Center(
-                child: Text("Menu Item Image"),
+              width: double.infinity,
+              child: Image.asset("assets/images/flutter-logo.png"),
+            ),
+            SizedBox(height: 1.5.h),
+            Text(
+              "Menu Item",
+              style: TextStyle(
+                fontSize: 16.sp,
+              ),
+            ),
+            SizedBox(height: 0.5.h),
+            Text(
+              "₱ 100.00",
+              style: TextStyle(
+                fontSize: 15.sp,
               ),
             ),
             SizedBox(height: 1.5.h),
-            const Text("Menu Item Name"),
-            SizedBox(height: 1.5.h),
-            const Text("Menu Item Price"),
-            SizedBox(height: 1.5.h),
-            const Text("Menu Item Details"),
+            Text(
+              lorem(paragraphs: 1, words: 60),
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                fontSize: 15.sp,
+              ),
+            ),
           ],
         ),
       ),
@@ -44,16 +63,46 @@ class _MenuItemScreenViewState extends State<MenuItemScreenView> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                Text("-"),
-                Text("0"),
-                Text("+"),
+              children: [
+                Transform.scale(
+                  scale: 0.7,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                    ),
+                    child: const Icon(Icons.remove),
+                  ),
+                ),
+                Text(
+                  "0",
+                  style: TextStyle(
+                    fontSize: 21.sp,
+                  ),
+                ),
+                Transform.scale(
+                  scale: 0.7,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                    ),
+                  ),
+                ),
               ],
             ),
             SizedBox(height: 1.5.h),
             ElevatedButton(
               onPressed: () {},
-              child: const Text("ADD ITEM"),
+              child: Text(
+                "Add Item",
+                style: TextStyle(
+                  fontSize: 17.sp,
+                ),
+              ),
             ),
           ],
         ),

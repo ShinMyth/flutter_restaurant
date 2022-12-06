@@ -12,6 +12,7 @@ class SplashScreenView extends StatefulWidget {
 class _SplashScreenViewState extends State<SplashScreenView> {
   @override
   void initState() {
+    // Navigate to menu screen after 2.5 seconds
     Future.delayed(const Duration(milliseconds: 2500), () {
       Navigator.pushReplacement(
         context,

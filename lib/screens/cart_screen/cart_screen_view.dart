@@ -35,12 +35,27 @@ class _CartScreenViewState extends State<CartScreenView> {
                         Container(
                           height: 20.w,
                           width: 20.w,
-                          color: Theme.of(context).primaryColor,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Theme.of(context).primaryColor),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Image.asset("assets/images/flutter-logo.png"),
                         ),
                         SizedBox(width: 3.w),
-                        const Text("Menu Item"),
+                        Text(
+                          "Menu Item",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                          ),
+                        ),
                         const Spacer(),
-                        const Text("₱ 100.00"),
+                        Text(
+                          "₱ 100.00",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -48,19 +63,42 @@ class _CartScreenViewState extends State<CartScreenView> {
               },
             ),
             const Divider(),
+            SizedBox(height: 2.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text("Subtotal"),
-                Text("₱ 300.00"),
+              children: [
+                Text(
+                  "Subtotal",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                  ),
+                ),
+                Text(
+                  "₱ 300.00",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                  ),
+                ),
               ],
             ),
-            SizedBox(height: 1.5.h),
+            SizedBox(height: 1.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text("TOTAL"),
-                Text("₱ 300.00"),
+              children: [
+                Text(
+                  "Total",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "₱ 300.00",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ],
@@ -68,9 +106,19 @@ class _CartScreenViewState extends State<CartScreenView> {
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
-        child: ElevatedButton(
-          onPressed: () {},
-          child: const Text("PLACE ORDER"),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {},
+              child: Text(
+                "Place Order",
+                style: TextStyle(
+                  fontSize: 17.sp,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -42,12 +42,30 @@ class _OrderHistoryScreenViewState extends State<OrderHistoryScreenView> {
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text("Order Number"),
-                          Text("December 3, 2022"),
+                        children: [
+                          Text(
+                            "Order Number",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                          SizedBox(height: 0.5.h),
+                          Text(
+                            "December 3, 2022",
+                            style: TextStyle(
+                              color: Colors.black.withOpacity(0.6),
+                              fontSize: 15.sp,
+                            ),
+                          ),
                         ],
                       ),
-                      const Text("Completed"),
+                      Text(
+                        "Completed",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 16.sp,
+                        ),
+                      ),
                     ],
                   ),
                 ),
