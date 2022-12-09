@@ -1,3 +1,5 @@
+import 'package:restaurant/data/get_menu_data.dart';
+import 'package:restaurant/data/set_menu_data.dart';
 import 'package:restaurant/screens/cart_screen/cart_screen_view.dart';
 import 'package:restaurant/screens/menu_screen/widgets/custom_menu_item.dart';
 import 'package:restaurant/screens/order_history_screen/order_history_screen_view.dart';
@@ -114,6 +116,14 @@ class _MenuScreenViewState extends State<MenuScreenView> {
                   fontSize: 16.sp,
                 ),
               ),
+            ),
+            ElevatedButton(
+              onPressed: () => setMenuData(),
+              child: const Text("Set Menu Data"),
+            ),
+            ElevatedButton(
+              onPressed: () => getMenuData(),
+              child: const Text("Get Menu Data"),
             ),
           ],
         ),

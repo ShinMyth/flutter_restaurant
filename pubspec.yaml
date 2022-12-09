@@ -41,6 +41,15 @@ dependencies:
   # A Flutter package for generating random sentences and paragraphs.
   flutter_lorem: ^2.0.0
 
+  # A Flutter plugin to use the Firebase Core API
+  firebase_core: 1.16.0
+
+  # Firebase Firestore Database
+  cloud_firestore: 3.1.14
+
+dependency_overrides:
+  firebase_core_platform_interface: 4.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
