@@ -1,7 +1,7 @@
 import 'package:restaurant/data/set_menu_data.dart';
 import 'package:restaurant/screens/cart_screen/cart_screen_view.dart';
+import 'package:restaurant/screens/menu_screen/widgets/custom_menu.dart';
 import 'package:restaurant/screens/menu_screen/menu_screen_controller.dart';
-import 'package:restaurant/screens/menu_screen/widgets/custom_menu_item.dart';
 import 'package:restaurant/screens/order_history_screen/order_history_screen_view.dart';
 import 'package:restaurant/screens/signin_screen/signin_screen_view.dart';
 import 'package:flutter/material.dart';
@@ -139,41 +139,16 @@ class _MenuScreenViewState extends State<MenuScreenView> {
           ],
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5.w),
-        child: ListView.builder(
-          itemCount: controller.menu.length,
-          itemBuilder: (context, menuIndex) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 2.5.h),
-                Text(
-                  controller.menu[menuIndex].menuName,
-                  style: TextStyle(
-                    fontSize: 18.sp,
-                  ),
-                ),
-                SizedBox(height: 1.5.h),
-                GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 5.w,
-                    crossAxisSpacing: 5.w,
-                  ),
-                  itemCount: controller.menu[menuIndex].menuItems.length,
-                  itemBuilder: (context, menuItemIndex) {
-                    return CustomMenuItem(
-                      menuItem:
-                          controller.menu[menuIndex].menuItems[menuItemIndex],
-                    );
-                  },
-                ),
-              ],
-            );
-          },
+      body: RefreshIndicator(
+        onRefresh: () => getMenuData(),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5.w),
+          child: ListView.builder(
+            itemCount: controller.menu.length,
+            itemBuilder: (context, index) {
+              return CustomMenu(menu: controller.menu[index]);
+            },
+          ),
         ),
       ),
     );

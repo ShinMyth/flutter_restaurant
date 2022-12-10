@@ -1,13 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:restaurant/models/menu_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:restaurant/models/menu_item_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class MenuItemScreenView extends StatefulWidget {
-  const MenuItemScreenView({
-    Key? key,
-    required this.menuItem,
-  }) : super(key: key);
+  const MenuItemScreenView({Key? key, required this.menuItem})
+      : super(key: key);
 
   final MenuItem menuItem;
 
@@ -16,6 +14,22 @@ class MenuItemScreenView extends StatefulWidget {
 }
 
 class _MenuItemScreenViewState extends State<MenuItemScreenView> {
+  int quantity = 0;
+
+  void subtractQuantity() {
+    setState(() {
+      if (quantity > 0) {
+        quantity--;
+      }
+    });
+  }
+
+  void addQuantity() {
+    setState(() {
+      quantity++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,31 +44,35 @@ class _MenuItemScreenViewState extends State<MenuItemScreenView> {
           children: [
             Container(
               decoration: BoxDecoration(
-                border: Border.all(color: Theme.of(context).primaryColor),
+                border: widget.menuItem.menuItemImage.isEmpty
+                    ? Border.all(color: Theme.of(context).primaryColor)
+                    : null,
                 borderRadius: BorderRadius.circular(15),
               ),
-              height: 20.h,
+              height: 30.h,
               width: double.infinity,
               clipBehavior: Clip.hardEdge,
-              child: widget.menuItem.menuItemImage.isNotEmpty
-                  ? CachedNetworkImage(
+              child: widget.menuItem.menuItemImage.isEmpty
+                  ? Image.asset("assets/images/flutter-logo.png")
+                  : CachedNetworkImage(
                       imageUrl: widget.menuItem.menuItemImage,
                       fit: BoxFit.cover,
-                    )
-                  : Image.asset("assets/images/flutter-logo.png"),
+                    ),
             ),
             SizedBox(height: 1.5.h),
             Text(
               widget.menuItem.menuItemName,
               style: TextStyle(
                 fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
               ),
             ),
             SizedBox(height: 0.5.h),
             Text(
-              "₱ ${widget.menuItem.menuItemPrice.toStringAsFixed(2)}",
+              "₱${widget.menuItem.menuItemPrice.toStringAsFixed(2)}",
               style: TextStyle(
                 fontSize: 15.sp,
+                fontWeight: FontWeight.w500,
               ),
             ),
             SizedBox(height: 1.5.h),
@@ -62,6 +80,7 @@ class _MenuItemScreenViewState extends State<MenuItemScreenView> {
               widget.menuItem.menuItemDescription,
               textAlign: TextAlign.justify,
               style: TextStyle(
+                color: Colors.black.withOpacity(0.8),
                 fontSize: 15.sp,
               ),
             ),
@@ -74,28 +93,34 @@ class _MenuItemScreenViewState extends State<MenuItemScreenView> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Transform.scale(
-                  scale: 0.7,
+                  scale: 0.75,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => subtractQuantity(),
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
                     ),
                     child: const Icon(Icons.remove),
                   ),
                 ),
-                Text(
-                  "0",
-                  style: TextStyle(
-                    fontSize: 21.sp,
+                SizedBox(width: 12.w),
+                Container(
+                  width: 15.w,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "$quantity",
+                    style: TextStyle(
+                      fontSize: 21.sp,
+                    ),
                   ),
                 ),
+                SizedBox(width: 12.w),
                 Transform.scale(
-                  scale: 0.7,
+                  scale: 0.75,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => addQuantity(),
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
                     ),
@@ -106,13 +131,13 @@ class _MenuItemScreenViewState extends State<MenuItemScreenView> {
                 ),
               ],
             ),
-            SizedBox(height: 1.5.h),
             ElevatedButton(
               onPressed: () {},
               child: Text(
                 "Add Item",
                 style: TextStyle(
                   fontSize: 17.sp,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),

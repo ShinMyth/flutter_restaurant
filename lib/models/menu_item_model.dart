@@ -6,7 +6,7 @@ class MenuItem {
   String menuItemName;
   double menuItemPrice;
   String menuItemDescription;
-  double menuItemOrder;
+  int menuItemOrder;
 
   MenuItem({
     required this.menuItemID,
