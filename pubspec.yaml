@@ -38,8 +38,8 @@ dependencies:
   # Responsive Sizer helps implement a responsive layout by providing helper widgets and extensions.
   responsive_sizer: ^3.1.1
 
-  # A Flutter package for generating random sentences and paragraphs.
-  flutter_lorem: ^2.0.0
+  # A flutter library to show images from the internet and keep them in the cache directory.
+  cached_network_image: ^3.2.0
 
   # A Flutter plugin to use the Firebase Core API
   firebase_core: 1.16.0

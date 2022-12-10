@@ -1,6 +1,6 @@
-import 'package:restaurant/data/get_menu_data.dart';
 import 'package:restaurant/data/set_menu_data.dart';
 import 'package:restaurant/screens/cart_screen/cart_screen_view.dart';
+import 'package:restaurant/screens/menu_screen/menu_screen_controller.dart';
 import 'package:restaurant/screens/menu_screen/widgets/custom_menu_item.dart';
 import 'package:restaurant/screens/order_history_screen/order_history_screen_view.dart';
 import 'package:restaurant/screens/signin_screen/signin_screen_view.dart';
@@ -15,6 +15,21 @@ class MenuScreenView extends StatefulWidget {
 }
 
 class _MenuScreenViewState extends State<MenuScreenView> {
+  late MenuScreenController controller;
+
+  @override
+  void initState() {
+    controller = MenuScreenController();
+
+    getMenuData();
+    super.initState();
+  }
+
+  Future<void> getMenuData() async {
+    await controller.getMenuData();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,24 +136,20 @@ class _MenuScreenViewState extends State<MenuScreenView> {
               onPressed: () => setMenuData(),
               child: const Text("Set Menu Data"),
             ),
-            ElevatedButton(
-              onPressed: () => getMenuData(),
-              child: const Text("Get Menu Data"),
-            ),
           ],
         ),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.w),
         child: ListView.builder(
-          itemCount: 3,
-          itemBuilder: (context, index) {
+          itemCount: controller.menu.length,
+          itemBuilder: (context, menuIndex) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 2.5.h),
                 Text(
-                  "Menu Group",
+                  controller.menu[menuIndex].menuName,
                   style: TextStyle(
                     fontSize: 18.sp,
                   ),
@@ -152,9 +163,12 @@ class _MenuScreenViewState extends State<MenuScreenView> {
                     mainAxisSpacing: 5.w,
                     crossAxisSpacing: 5.w,
                   ),
-                  itemCount: 8,
-                  itemBuilder: (context, index) {
-                    return const CustomMenuItem();
+                  itemCount: controller.menu[menuIndex].menuItems.length,
+                  itemBuilder: (context, menuItemIndex) {
+                    return CustomMenuItem(
+                      menuItem:
+                          controller.menu[menuIndex].menuItems[menuItemIndex],
+                    );
                   },
                 ),
               ],

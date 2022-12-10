@@ -1,9 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:restaurant/models/menu_item_model.dart';
 import 'package:restaurant/screens/menu_item_screen/menu_item_screen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CustomMenuItem extends StatefulWidget {
-  const CustomMenuItem({Key? key}) : super(key: key);
+  const CustomMenuItem({Key? key, required this.menuItem}) : super(key: key);
+
+  final MenuItem menuItem;
 
   @override
   State<CustomMenuItem> createState() => _CustomMenuItemState();
@@ -17,7 +21,9 @@ class _CustomMenuItemState extends State<CustomMenuItem> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const MenuItemScreenView(),
+            builder: (context) => MenuItemScreenView(
+              menuItem: widget.menuItem,
+            ),
           ),
         );
       },
@@ -30,7 +36,12 @@ class _CustomMenuItemState extends State<CustomMenuItem> {
         child: Column(
           children: [
             Expanded(
-              child: Image.asset("assets/images/flutter-logo.png"),
+              child: widget.menuItem.menuItemImage.isNotEmpty
+                  ? CachedNetworkImage(
+                      imageUrl: widget.menuItem.menuItemImage,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset("assets/images/flutter-logo.png"),
             ),
             Container(
               color: Theme.of(context).primaryColor,
@@ -38,17 +49,19 @@ class _CustomMenuItemState extends State<CustomMenuItem> {
               width: double.infinity,
               padding: EdgeInsets.all(1.5.w),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Menu Item",
+                    widget.menuItem.menuItemName,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16.sp,
                     ),
                   ),
                   Text(
-                    "₱ 100.00",
+                    "₱ ${widget.menuItem.menuItemPrice.toStringAsFixed(2)}",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15.sp,
