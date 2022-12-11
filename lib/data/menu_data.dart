@@ -1,7 +1,14 @@
 import 'dart:developer';
+import 'dart:typed_data';
 import 'package:restaurant/models/menu_item_model.dart';
 import 'package:restaurant/models/menu_model.dart';
+import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
+final firestore = FirebaseFirestore.instance;
+
+final storage = FirebaseStorage.instance;
 
 List<Menu> menu = [
   Menu(
@@ -11,8 +18,7 @@ List<Menu> menu = [
     menuItems: [
       MenuItem(
         menuItemID: "MI01",
-        menuItemImage:
-            "https://kikanbo.co.jp/wp-content/themes/standard_black_cmspro/img/3e0e022620eca5b5e69b5dc8465b0a45-1000x667.jpg",
+        menuItemImage: "karashibi-miso-ramen.jpeg",
         menuItemName: "Karashibi Miso Ramen",
         menuItemPrice: 100.00,
         menuItemDescription:
@@ -21,8 +27,7 @@ List<Menu> menu = [
       ),
       MenuItem(
         menuItemID: "MI02",
-        menuItemImage:
-            "https://kikanbo.co.jp/wp-content/themes/standard_black_cmspro/img/5d34b8480fd829fed95e99694023a0c6-1000x667.jpg",
+        menuItemImage: "ajitama-karashibi-miso-ramen.jpeg",
         menuItemName: "Ajitama Karashibi Miso Ramen",
         menuItemPrice: 120.00,
         menuItemDescription:
@@ -31,8 +36,7 @@ List<Menu> menu = [
       ),
       MenuItem(
         menuItemID: "MI03",
-        menuItemImage:
-            "https://kikanbo.co.jp/wp-content/themes/standard_black_cmspro/img/6f938cc2c6a7b114a1509d4975e9b40d-1000x667.jpg",
+        menuItemImage: "young-corn-karashibi-miso-ramen.jpeg",
         menuItemName: "Young Corn Karashibi Miso Ramen",
         menuItemPrice: 130.00,
         menuItemDescription:
@@ -48,8 +52,7 @@ List<Menu> menu = [
     menuItems: [
       MenuItem(
         menuItemID: "MI04",
-        menuItemImage:
-            "https://kikanbo.co.jp/wp-content/themes/standard_black_cmspro/img/181016-0517.jpg",
+        menuItemImage: "ajitama.jpeg",
         menuItemName: "Ajitama",
         menuItemPrice: 20.00,
         menuItemDescription:
@@ -58,8 +61,7 @@ List<Menu> menu = [
       ),
       MenuItem(
         menuItemID: "MI05",
-        menuItemImage:
-            "https://kikanbo.co.jp/wp-content/themes/standard_black_cmspro/img/181016-0513.jpg",
+        menuItemImage: "young-corn.jpeg",
         menuItemName: "Young Corn",
         menuItemPrice: 30.00,
         menuItemDescription:
@@ -102,13 +104,16 @@ List<Menu> menu = [
 ];
 
 Future<void> setMenuData() async {
-  final db = FirebaseFirestore.instance;
-
   for (Menu menu in menu) {
-    await db.collection("menu").doc(menu.menuID).set(menu.toFirestore());
+    await firestore.collection("menu").doc(menu.menuID).set(menu.toFirestore());
 
     for (MenuItem menuItem in menu.menuItems) {
-      await db
+      if (menuItem.menuItemImage.isNotEmpty) {
+        menuItem.menuItemImage =
+            await uploadMenuItemImage(menuItemImage: menuItem.menuItemImage);
+      }
+
+      await firestore
           .collection("menu")
           .doc(menu.menuID)
           .collection("menuItems")
@@ -116,5 +121,28 @@ Future<void> setMenuData() async {
           .set(menuItem.toFirestore());
     }
   }
+
   log("Set Menu Data: Success");
+}
+
+Future<String> uploadMenuItemImage({required String menuItemImage}) async {
+  String assetsPath = "assets/images/menu/menu_items/$menuItemImage";
+  String referencePath = "menu/menu_items/$menuItemImage";
+
+  ByteData byteData = await rootBundle.load(assetsPath);
+
+  Uint8List data = byteData.buffer.asUint8List(
+    byteData.offsetInBytes,
+    byteData.lengthInBytes,
+  );
+
+  try {
+    await storage.ref().child(referencePath).putData(data);
+
+    return await storage.ref().child(referencePath).getDownloadURL();
+  } on FirebaseException catch (e) {
+    log(e.toString());
+
+    return "";
+  }
 }

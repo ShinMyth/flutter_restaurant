@@ -1,4 +1,4 @@
-import 'package:restaurant/data/set_menu_data.dart';
+import 'package:restaurant/data/menu_data.dart';
 import 'package:restaurant/screens/cart_screen/cart_screen_view.dart';
 import 'package:restaurant/screens/menu_screen/widgets/custom_menu.dart';
 import 'package:restaurant/screens/menu_screen/menu_screen_controller.dart';

@@ -41,11 +41,14 @@ dependencies:
   # A flutter library to show images from the internet and keep them in the cache directory.
   cached_network_image: ^3.2.0
 
-  # A Flutter plugin to use the Firebase Core API
+  # A Flutter plugin to use the Firebase Core API.
   firebase_core: 1.16.0
 
-  # Firebase Firestore Database
+  # A Flutter plugin to use the Cloud Firestore API.
   cloud_firestore: 3.1.14
+
+  # A Flutter plugin to use the Firebase Cloud Storage API.
+  firebase_storage: 10.2.16
 
 dependency_overrides:
   firebase_core_platform_interface: 4.3.0
@@ -73,6 +76,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/menu/menu_items/
     - assets/images/
 
   # To add assets to your application, add an assets section, like this:
