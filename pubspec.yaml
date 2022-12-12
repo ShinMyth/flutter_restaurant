@@ -50,6 +50,9 @@ dependencies:
   # A Flutter plugin to use the Firebase Cloud Storage API.
   firebase_storage: 10.2.16
 
+  # A Flutter plugin to use the Firebase Authentication API.
+  firebase_auth: 3.3.18
+
 dependency_overrides:
   firebase_core_platform_interface: 4.3.0
 

@@ -1,4 +1,8 @@
+import 'package:restaurant/screens/menu_screen/menu_screen_view.dart';
 import 'package:restaurant/screens/signup_screen/signup_screen_view.dart';
+import 'package:restaurant/services/firebase_authentication_service.dart';
+import 'package:restaurant/shared/shared_loading.dart';
+import 'package:restaurant/shared/shared_snackbar.dart';
 import 'package:restaurant/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
@@ -22,6 +26,52 @@ class _SigninScreenViewState extends State<SigninScreenView> {
     });
   }
 
+  void resetTextFields() {
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    email.clear();
+    password.clear();
+
+    setState(() {
+      isObscureTextPassword = true;
+    });
+  }
+
+  Future<void> signIn() async {
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    // Checks if there is no input for email and password
+    if (email.text.isEmpty || password.text.isEmpty) {
+      showSharedSnackbar(
+        title: "Invalid Input",
+        message: "Please fill in all the fields.",
+      );
+
+      return;
+    }
+
+    showSharedLoading(context: context);
+
+    // Calls firebase function for signin
+    bool result = await FirebaseAuthenticationService().signIn(
+      email: email.text,
+      password: password.text,
+    );
+
+    Navigator.pop(context);
+
+    // If the firebase signin is true then navigate to home screen
+    if (result) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MenuScreenView(),
+        ),
+        (Route<dynamic> route) => false,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -43,7 +93,7 @@ class _SigninScreenViewState extends State<SigninScreenView> {
                 child: Text(
                   "Sign In",
                   style: TextStyle(
-                    fontSize: 27.sp,
+                    fontSize: 26.sp,
                   ),
                 ),
               ),
@@ -76,7 +126,7 @@ class _SigninScreenViewState extends State<SigninScreenView> {
                       text: "Don't have an account?",
                       style: TextStyle(
                         color: Colors.black87,
-                        fontSize: 16.5.sp,
+                        fontSize: 16.sp,
                       ),
                     ),
                     TextSpan(
@@ -88,11 +138,13 @@ class _SigninScreenViewState extends State<SigninScreenView> {
                               builder: (context) => const SignupScreenView(),
                             ),
                           );
+
+                          resetTextFields();
                         },
                       text: " Sign up",
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
-                        fontSize: 16.5.sp,
+                        fontSize: 16.sp,
                       ),
                     ),
                   ],
@@ -100,11 +152,12 @@ class _SigninScreenViewState extends State<SigninScreenView> {
               ),
               SizedBox(height: 3.h),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () => signIn(),
                 child: Text(
                   "Sign in",
                   style: TextStyle(
                     fontSize: 17.sp,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ),

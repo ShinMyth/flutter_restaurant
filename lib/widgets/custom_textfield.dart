@@ -30,7 +30,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       cursorColor: Theme.of(context).primaryColor,
       keyboardType: TextInputType.visiblePassword,
       style: TextStyle(
-        fontSize: 17.sp,
+        fontSize: 16.5.sp,
       ),
       decoration: InputDecoration(
         isDense: true,
@@ -41,7 +41,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         hintText: widget.hintText,
         hintStyle: TextStyle(
-          fontSize: 17.sp,
+          fontSize: 16.5.sp,
         ),
         suffixIcon: widget.suffixIcon,
       ),

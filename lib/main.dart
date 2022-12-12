@@ -1,3 +1,4 @@
+import 'package:restaurant/constants/app_globals.dart';
 import 'package:restaurant/screens/splash_screen/splash_screen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: "Flutter Restaurant",
           home: const SplashScreenView(),
+          scaffoldMessengerKey: scaffoldMessengerKey,
           theme: Theme.of(context).copyWith(
             pageTransitionsTheme: const PageTransitionsTheme(
               builders: {
