@@ -53,6 +53,12 @@ dependencies:
   # A Flutter plugin to use the Firebase Authentication API.
   firebase_auth: 3.3.18
 
+  # SQLite plugin for Flutter.
+  sqflite: ^2.0.2
+
+  # A comprehensive, cross-platform path manipulation library for Dart.
+  path: ^1.8.0
+
 dependency_overrides:
   firebase_core_platform_interface: 4.3.0
 

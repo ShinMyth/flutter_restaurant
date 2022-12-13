@@ -1,4 +1,6 @@
+import 'package:restaurant/models/cart_item_model.dart';
 import 'package:restaurant/models/menu_item_model.dart';
+import 'package:restaurant/services/cart_service.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -16,7 +18,7 @@ class MenuItemScreenView extends StatefulWidget {
 class _MenuItemScreenViewState extends State<MenuItemScreenView> {
   int quantity = 0;
 
-  void subtractQuantity() {
+  void decrementQuantity() {
     setState(() {
       if (quantity > 0) {
         quantity--;
@@ -24,10 +26,29 @@ class _MenuItemScreenViewState extends State<MenuItemScreenView> {
     });
   }
 
-  void addQuantity() {
+  void incrementQuantity() {
     setState(() {
       quantity++;
     });
+  }
+
+  Future<void> insertCartItem() async {
+    if (quantity == 0) {
+      return;
+    }
+
+    CartItem cartItem = CartItem(
+      cartItemID: widget.menuItem.menuItemID,
+      cartItemImage: widget.menuItem.menuItemImage,
+      cartItemName: widget.menuItem.menuItemName,
+      cartItemPrice: widget.menuItem.menuItemPrice,
+      cartItemQuantity: quantity,
+      cartItemGrossTotal: widget.menuItem.menuItemPrice * quantity,
+    );
+
+    await CartService().insertCartItem(cartItem: cartItem);
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -98,7 +119,7 @@ class _MenuItemScreenViewState extends State<MenuItemScreenView> {
                 Transform.scale(
                   scale: 0.75,
                   child: ElevatedButton(
-                    onPressed: () => subtractQuantity(),
+                    onPressed: () => decrementQuantity(),
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
                     ),
@@ -120,7 +141,7 @@ class _MenuItemScreenViewState extends State<MenuItemScreenView> {
                 Transform.scale(
                   scale: 0.75,
                   child: ElevatedButton(
-                    onPressed: () => addQuantity(),
+                    onPressed: () => incrementQuantity(),
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
                     ),
@@ -132,7 +153,7 @@ class _MenuItemScreenViewState extends State<MenuItemScreenView> {
               ],
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () => insertCartItem(),
               child: Text(
                 "Add Item",
                 style: TextStyle(

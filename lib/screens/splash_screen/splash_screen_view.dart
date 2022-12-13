@@ -1,4 +1,5 @@
 import 'package:restaurant/screens/menu_screen/menu_screen_view.dart';
+import 'package:restaurant/services/sqflite_database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -13,7 +14,10 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   @override
   void initState() {
     // Navigate to menu screen after 2.5 seconds
-    Future.delayed(const Duration(milliseconds: 2500), () {
+    Future.delayed(const Duration(milliseconds: 2500), () async {
+      // Setup the sqflite database
+      await SqfliteDatabaseService().setupDatabase();
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

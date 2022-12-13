@@ -162,9 +162,12 @@ class _MenuScreenViewState extends State<MenuScreenView> {
                 ),
               ),
             ],
-            ElevatedButton(
-              onPressed: () => setMenuData(),
-              child: const Text("Set Menu Data"),
+            const Divider(),
+            ListTile(
+              title: ElevatedButton(
+                onPressed: () => setMenuData(),
+                child: const Text("Set Menu Data"),
+              ),
             ),
           ],
         ),
