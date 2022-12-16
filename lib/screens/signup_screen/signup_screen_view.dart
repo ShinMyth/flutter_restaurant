@@ -1,75 +1,30 @@
-import 'package:restaurant/screens/menu_screen/menu_screen_view.dart';
-import 'package:restaurant/services/firebase_authentication_service.dart';
-import 'package:restaurant/shared/shared_loading.dart';
-import 'package:restaurant/shared/shared_snackbar.dart';
+import 'package:restaurant/screens/menu_screen/menu_screen_controller.dart';
+import 'package:restaurant/screens/signup_screen/signup_screen_controller.dart';
 import 'package:restaurant/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SignupScreenView extends StatefulWidget {
-  const SignupScreenView({Key? key}) : super(key: key);
+  const SignupScreenView({Key? key, required this.menuScreenController})
+      : super(key: key);
+
+  final MenuScreenController menuScreenController;
 
   @override
   State<SignupScreenView> createState() => _SignupScreenViewState();
 }
 
 class _SignupScreenViewState extends State<SignupScreenView> {
-  TextEditingController firstName = TextEditingController();
-  TextEditingController lastName = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  bool isObscureTextPassword = true;
+  late SignupScreenController controller;
 
-  void changeIsObscureTextPassword() {
-    setState(() {
-      isObscureTextPassword = !isObscureTextPassword;
-    });
-  }
-
-  Future<void> signUp() async {
-    FocusManager.instance.primaryFocus?.unfocus();
-
-    // Checks if there is no input for firstName, lastName, email and password
-    if (firstName.text.isEmpty ||
-        lastName.text.isEmpty ||
-        email.text.isEmpty ||
-        password.text.isEmpty) {
-      showSharedSnackbar(
-        title: "Invalid Input",
-        message: "Please fill in all the fields.",
-      );
-
-      return;
-    }
-
-    showSharedLoading(context: context);
-
-    // Calls firebase function for signup
-    bool result = await FirebaseAuthenticationService().signUp(
-      email: email.text,
-      password: password.text,
+  @override
+  void initState() {
+    controller = SignupScreenController(
+      setstate: () => setState(() {}),
+      context: context,
+      menuScreenController: widget.menuScreenController,
     );
-
-    // If the firebase signup is true then update display name
-    if (result) {
-      await FirebaseAuthenticationService().updateDisplayName(
-        firstName: firstName.text,
-        lastName: lastName.text,
-      );
-    }
-
-    Navigator.pop(context);
-
-    // If the firebase signup is true then navigate to home screen
-    if (result) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MenuScreenView(),
-        ),
-        (Route<dynamic> route) => false,
-      );
-    }
+    super.initState();
   }
 
   @override
@@ -104,7 +59,7 @@ class _SignupScreenViewState extends State<SignupScreenView> {
                   SizedBox(
                     width: 40.w,
                     child: CustomTextField(
-                      controller: firstName,
+                      controller: controller.firstName,
                       obscureText: false,
                       hintText: "First Name",
                     ),
@@ -112,7 +67,7 @@ class _SignupScreenViewState extends State<SignupScreenView> {
                   SizedBox(
                     width: 40.w,
                     child: CustomTextField(
-                      controller: lastName,
+                      controller: controller.lastName,
                       obscureText: false,
                       hintText: "Last Name",
                     ),
@@ -121,20 +76,20 @@ class _SignupScreenViewState extends State<SignupScreenView> {
               ),
               SizedBox(height: 2.5.h),
               CustomTextField(
-                controller: email,
+                controller: controller.email,
                 obscureText: false,
                 hintText: "Email",
                 suffixIcon: const Icon(Icons.email),
               ),
               SizedBox(height: 2.5.h),
               CustomTextField(
-                controller: password,
-                obscureText: isObscureTextPassword,
+                controller: controller.password,
+                obscureText: controller.isObscureTextPassword,
                 hintText: "Password",
                 suffixIcon: GestureDetector(
-                  onTap: () => changeIsObscureTextPassword(),
+                  onTap: () => controller.changeIsObscureTextPassword(),
                   child: Icon(
-                    isObscureTextPassword
+                    controller.isObscureTextPassword
                         ? Icons.visibility_off
                         : Icons.visibility,
                   ),
@@ -142,7 +97,7 @@ class _SignupScreenViewState extends State<SignupScreenView> {
               ),
               SizedBox(height: 5.h),
               ElevatedButton(
-                onPressed: () => signUp(),
+                onPressed: () => controller.signUp(),
                 child: Text(
                   "Sign up",
                   style: TextStyle(

@@ -1,75 +1,32 @@
-import 'package:restaurant/screens/menu_screen/menu_screen_view.dart';
+import 'package:restaurant/screens/menu_screen/menu_screen_controller.dart';
+import 'package:restaurant/screens/signin_screen/signin_screen_controller.dart';
 import 'package:restaurant/screens/signup_screen/signup_screen_view.dart';
-import 'package:restaurant/services/firebase_authentication_service.dart';
-import 'package:restaurant/shared/shared_loading.dart';
-import 'package:restaurant/shared/shared_snackbar.dart';
 import 'package:restaurant/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SigninScreenView extends StatefulWidget {
-  const SigninScreenView({Key? key}) : super(key: key);
+  const SigninScreenView({Key? key, required this.menuScreenController})
+      : super(key: key);
+
+  final MenuScreenController menuScreenController;
 
   @override
   State<SigninScreenView> createState() => _SigninScreenViewState();
 }
 
 class _SigninScreenViewState extends State<SigninScreenView> {
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  bool isObscureTextPassword = true;
+  late SigninScreenController controller;
 
-  void changeIsObscureTextPassword() {
-    setState(() {
-      isObscureTextPassword = !isObscureTextPassword;
-    });
-  }
-
-  void resetTextFields() {
-    FocusManager.instance.primaryFocus?.unfocus();
-
-    email.clear();
-    password.clear();
-
-    setState(() {
-      isObscureTextPassword = true;
-    });
-  }
-
-  Future<void> signIn() async {
-    FocusManager.instance.primaryFocus?.unfocus();
-
-    // Checks if there is no input for email and password
-    if (email.text.isEmpty || password.text.isEmpty) {
-      showSharedSnackbar(
-        title: "Invalid Input",
-        message: "Please fill in all the fields.",
-      );
-
-      return;
-    }
-
-    showSharedLoading(context: context);
-
-    // Calls firebase function for signin
-    bool result = await FirebaseAuthenticationService().signIn(
-      email: email.text,
-      password: password.text,
+  @override
+  void initState() {
+    controller = SigninScreenController(
+      setstate: () => setState(() {}),
+      context: context,
+      menuScreenController: widget.menuScreenController,
     );
-
-    Navigator.pop(context);
-
-    // If the firebase signin is true then navigate to home screen
-    if (result) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MenuScreenView(),
-        ),
-        (Route<dynamic> route) => false,
-      );
-    }
+    super.initState();
   }
 
   @override
@@ -99,20 +56,20 @@ class _SigninScreenViewState extends State<SigninScreenView> {
               ),
               SizedBox(height: 5.h),
               CustomTextField(
-                controller: email,
+                controller: controller.email,
                 obscureText: false,
                 hintText: "Email",
                 suffixIcon: const Icon(Icons.email),
               ),
               SizedBox(height: 2.5.h),
               CustomTextField(
-                controller: password,
-                obscureText: isObscureTextPassword,
+                controller: controller.password,
+                obscureText: controller.isObscureTextPassword,
                 hintText: "Password",
                 suffixIcon: GestureDetector(
-                  onTap: () => changeIsObscureTextPassword(),
+                  onTap: () => controller.changeIsObscureTextPassword(),
                   child: Icon(
-                    isObscureTextPassword
+                    controller.isObscureTextPassword
                         ? Icons.visibility_off
                         : Icons.visibility,
                   ),
@@ -135,11 +92,14 @@ class _SigninScreenViewState extends State<SigninScreenView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SignupScreenView(),
+                              builder: (context) => SignupScreenView(
+                                menuScreenController:
+                                    widget.menuScreenController,
+                              ),
                             ),
                           );
 
-                          resetTextFields();
+                          controller.resetTextFields();
                         },
                       text: " Sign up",
                       style: TextStyle(
@@ -152,7 +112,7 @@ class _SigninScreenViewState extends State<SigninScreenView> {
               ),
               SizedBox(height: 3.h),
               ElevatedButton(
-                onPressed: () => signIn(),
+                onPressed: () => controller.signIn(),
                 child: Text(
                   "Sign in",
                   style: TextStyle(

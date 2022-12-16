@@ -5,7 +5,6 @@ import 'package:restaurant/screens/menu_screen/menu_screen_controller.dart';
 import 'package:restaurant/screens/order_history_screen/order_history_screen_view.dart';
 import 'package:restaurant/screens/signin_screen/signin_screen_view.dart';
 import 'package:restaurant/services/firebase_authentication_service.dart';
-import 'package:restaurant/shared/shared_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -21,35 +20,13 @@ class _MenuScreenViewState extends State<MenuScreenView> {
 
   @override
   void initState() {
-    controller = MenuScreenController();
-
-    getMenuData();
-    super.initState();
-  }
-
-  Future<void> getMenuData() async {
-    await controller.getMenuData();
-    setState(() {});
-  }
-
-  Future<void> signOut() async {
-    showSharedDialog(
+    controller = MenuScreenController(
+      setstate: () => setState(() {}),
       context: context,
-      barrierDismissible: true,
-      title: const Text("Confirm Sign out"),
-      content: const Text("Are you sure you want to sign out?"),
-      actionFunction1: () => Navigator.pop(context),
-      actionLabel1: const Text("Cancel"),
-      actionFunction2: () async {
-        Navigator.pop(context);
-
-        await FirebaseAuthenticationService().signOut();
-
-        Navigator.pop(context);
-        setState(() {});
-      },
-      actionLabel2: const Text("Sign out"),
     );
+
+    controller.getMenuData();
+    super.initState();
   }
 
   @override
@@ -64,7 +41,9 @@ class _MenuScreenViewState extends State<MenuScreenView> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const CartScreenView(),
+                  builder: (context) => CartScreenView(
+                    menuScreenController: controller,
+                  ),
                 ),
               );
             },
@@ -112,7 +91,9 @@ class _MenuScreenViewState extends State<MenuScreenView> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SigninScreenView(),
+                      builder: (context) => SigninScreenView(
+                        menuScreenController: controller,
+                      ),
                     ),
                   );
                 },
@@ -149,7 +130,7 @@ class _MenuScreenViewState extends State<MenuScreenView> {
                 ),
               ),
               ListTile(
-                onTap: () => signOut(),
+                onTap: () => controller.signOut(),
                 leading: Icon(
                   Icons.logout_rounded,
                   color: Colors.black.withOpacity(0.8),
@@ -173,7 +154,7 @@ class _MenuScreenViewState extends State<MenuScreenView> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () => getMenuData(),
+        onRefresh: () => controller.getMenuData(),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 5.w),
           child: ListView.builder(
