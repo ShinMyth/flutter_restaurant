@@ -15,7 +15,13 @@ class MenuScreenController {
 
   List<Menu> menu = [];
 
+  bool isLoading = false;
+
   Future<void> getMenuData() async {
+    isLoading = true;
+
+    setstate();
+
     menu.clear();
 
     await firestore
@@ -47,6 +53,8 @@ class MenuScreenController {
         });
       }
     });
+
+    isLoading = false;
 
     setstate();
   }

@@ -1,3 +1,4 @@
+import 'package:restaurant/screens/cart_screen/cart_screen_controller.dart';
 import 'package:restaurant/screens/menu_screen/menu_screen_controller.dart';
 import 'package:restaurant/screens/signup_screen/signup_screen_controller.dart';
 import 'package:restaurant/widgets/custom_textfield.dart';
@@ -5,10 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SignupScreenView extends StatefulWidget {
-  const SignupScreenView({Key? key, required this.menuScreenController})
-      : super(key: key);
+  const SignupScreenView({
+    Key? key,
+    required this.menuScreenController,
+    this.cartScreenController,
+  }) : super(key: key);
 
   final MenuScreenController menuScreenController;
+  final CartScreenController? cartScreenController;
 
   @override
   State<SignupScreenView> createState() => _SignupScreenViewState();
@@ -23,6 +28,7 @@ class _SignupScreenViewState extends State<SignupScreenView> {
       setstate: () => setState(() {}),
       context: context,
       menuScreenController: widget.menuScreenController,
+      cartScreenController: widget.cartScreenController,
     );
     super.initState();
   }

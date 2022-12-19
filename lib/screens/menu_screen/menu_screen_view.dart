@@ -17,10 +17,16 @@ class MenuScreenView extends StatefulWidget {
 
 class _MenuScreenViewState extends State<MenuScreenView> {
   late MenuScreenController controller;
+  late MenuData menuData;
 
   @override
   void initState() {
     controller = MenuScreenController(
+      setstate: () => setState(() {}),
+      context: context,
+    );
+
+    menuData = MenuData(
       setstate: () => setState(() {}),
       context: context,
     );
@@ -143,27 +149,47 @@ class _MenuScreenViewState extends State<MenuScreenView> {
                 ),
               ),
             ],
-            const Divider(),
-            ListTile(
-              title: ElevatedButton(
-                onPressed: () => setMenuData(),
-                child: const Text("Set Menu Data"),
+            if (menuData.isSetMenuData == false) ...[
+              const Divider(),
+              ListTile(
+                title: ElevatedButton(
+                  onPressed: () => menuData.setMenuData(),
+                  child: const Text("Set Menu Data"),
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),
       body: RefreshIndicator(
         onRefresh: () => controller.getMenuData(),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5.w),
-          child: ListView.builder(
-            itemCount: controller.menu.length,
-            itemBuilder: (context, index) {
-              return CustomMenu(menu: controller.menu[index]);
-            },
-          ),
-        ),
+        child: controller.isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : controller.menu.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text("Menu Empty"),
+                        SizedBox(height: 2.h),
+                        GestureDetector(
+                          onTap: () => controller.getMenuData(),
+                          child: const Icon(Icons.refresh),
+                        ),
+                      ],
+                    ),
+                  )
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: ListView.builder(
+                      itemCount: controller.menu.length,
+                      itemBuilder: (context, index) {
+                        return CustomMenu(menu: controller.menu[index]);
+                      },
+                    ),
+                  ),
       ),
     );
   }

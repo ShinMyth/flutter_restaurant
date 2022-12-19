@@ -1,3 +1,4 @@
+import 'package:restaurant/screens/cart_screen/cart_screen_controller.dart';
 import 'package:restaurant/screens/menu_screen/menu_screen_controller.dart';
 import 'package:restaurant/services/firebase_authentication_service.dart';
 import 'package:restaurant/shared/shared_loading.dart';
@@ -8,11 +9,13 @@ class SigninScreenController {
   final Function() setstate;
   final BuildContext context;
   final MenuScreenController menuScreenController;
+  final CartScreenController? cartScreenController;
 
   SigninScreenController({
     required this.setstate,
     required this.context,
     required this.menuScreenController,
+    this.cartScreenController,
   });
 
   TextEditingController email = TextEditingController();
@@ -63,6 +66,10 @@ class SigninScreenController {
     if (result) {
       Navigator.pop(context);
       menuScreenController.setstate();
+
+      if (cartScreenController != null) {
+        cartScreenController!.setstate();
+      }
     }
   }
 }

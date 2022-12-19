@@ -1,3 +1,4 @@
+import 'package:restaurant/screens/cart_screen/cart_screen_controller.dart';
 import 'package:restaurant/screens/menu_screen/menu_screen_controller.dart';
 import 'package:restaurant/screens/signin_screen/signin_screen_controller.dart';
 import 'package:restaurant/screens/signup_screen/signup_screen_view.dart';
@@ -7,10 +8,14 @@ import 'package:flutter/gestures.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SigninScreenView extends StatefulWidget {
-  const SigninScreenView({Key? key, required this.menuScreenController})
-      : super(key: key);
+  const SigninScreenView({
+    Key? key,
+    required this.menuScreenController,
+    this.cartScreenController,
+  }) : super(key: key);
 
   final MenuScreenController menuScreenController;
+  final CartScreenController? cartScreenController;
 
   @override
   State<SigninScreenView> createState() => _SigninScreenViewState();
@@ -25,6 +30,7 @@ class _SigninScreenViewState extends State<SigninScreenView> {
       setstate: () => setState(() {}),
       context: context,
       menuScreenController: widget.menuScreenController,
+      cartScreenController: widget.cartScreenController,
     );
     super.initState();
   }
@@ -95,6 +101,8 @@ class _SigninScreenViewState extends State<SigninScreenView> {
                               builder: (context) => SignupScreenView(
                                 menuScreenController:
                                     widget.menuScreenController,
+                                cartScreenController:
+                                    widget.cartScreenController,
                               ),
                             ),
                           );

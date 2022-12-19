@@ -141,6 +141,7 @@ class _CartScreenViewState extends State<CartScreenView> {
                                       builder: (context) => SigninScreenView(
                                         menuScreenController:
                                             widget.menuScreenController,
+                                        cartScreenController: controller,
                                       ),
                                     ),
                                   );
@@ -164,16 +165,7 @@ class _CartScreenViewState extends State<CartScreenView> {
                     ),
                   ] else ...[
                     ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SigninScreenView(
-                              menuScreenController: widget.menuScreenController,
-                            ),
-                          ),
-                        );
-                      },
+                      onPressed: () {},
                       child: Text(
                         "Place Order",
                         style: TextStyle(
