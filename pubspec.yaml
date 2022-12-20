@@ -59,6 +59,9 @@ dependencies:
   # A comprehensive, cross-platform path manipulation library for Dart.
   path: ^1.8.0
 
+  # Wraps platform-specific persistent storage for simple data.
+  shared_preferences: ^2.0.15
+
 dependency_overrides:
   firebase_core_platform_interface: 4.3.0
 

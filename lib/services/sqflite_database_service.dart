@@ -5,7 +5,7 @@ Database? db;
 String dbName = "cart.db";
 
 class SqfliteDatabaseService {
-  Future<void> setupDatabase() async {
+  Future<void> initializeSqfliteDatabase() async {
     var path = await getDatabasesPath();
     String databasesPath = join(path, dbName);
 

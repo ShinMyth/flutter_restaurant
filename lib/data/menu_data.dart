@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:typed_data';
 import 'package:restaurant/models/menu_item_model.dart';
 import 'package:restaurant/models/menu_model.dart';
+import 'package:restaurant/services/shared_preferences_service.dart';
 import 'package:restaurant/shared/shared_dialog.dart';
 import 'package:restaurant/shared/shared_loading.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class MenuData {
-  final Function() setstate;
   final BuildContext context;
 
-  MenuData({required this.setstate, required this.context});
+  MenuData({required this.context});
 
   final firestore = FirebaseFirestore.instance;
   final storage = FirebaseStorage.instance;
@@ -111,54 +111,42 @@ class MenuData {
     ),
   ];
 
-  bool isSetMenuData = false;
-
   Future<void> setMenuData() async {
-    showSharedDialog(
+    await showSharedDialog(
       context: context,
-      barrierDismissible: true,
+      barrierDismissible: false,
       title: const Text("Set Menu Data"),
-      content: const Text("Do you want to set menu data?"),
+      content: const Text(
+          "Setting-up initial menu data for the app's core functionality."),
       actionFunction1: () => Navigator.pop(context),
-      actionLabel1: const Text("Cancel"),
-      actionFunction2: () async {
-        Navigator.pop(context);
+      actionLabel1: const Text("Set"),
+    );
 
-        showSharedLoading(context: context);
+    showSharedLoading(context: context);
 
-        for (Menu menu in menu) {
-          await firestore
-              .collection("menu")
-              .doc(menu.menuID)
-              .set(menu.toFirestore());
+    for (Menu menu in menu) {
+      await firestore
+          .collection("menu")
+          .doc(menu.menuID)
+          .set(menu.toFirestore());
 
-          for (MenuItem menuItem in menu.menuItems) {
-            if (menuItem.menuItemImage.isNotEmpty) {
-              menuItem.menuItemImage = await uploadMenuItemImage(
-                  menuItemImage: menuItem.menuItemImage);
-            }
-
-            await firestore
-                .collection("menu")
-                .doc(menu.menuID)
-                .collection("menuItems")
-                .doc(menuItem.menuItemID)
-                .set(menuItem.toFirestore());
-          }
+      for (MenuItem menuItem in menu.menuItems) {
+        if (menuItem.menuItemImage.isNotEmpty) {
+          menuItem.menuItemImage =
+              await uploadMenuItemImage(menuItemImage: menuItem.menuItemImage);
         }
 
-        Navigator.pop(context);
+        await firestore
+            .collection("menu")
+            .doc(menu.menuID)
+            .collection("menuItems")
+            .doc(menuItem.menuItemID)
+            .set(menuItem.toFirestore());
+      }
+    }
+    await prefs.setBool("isSetMenuData", true);
 
-        Future.delayed(const Duration(milliseconds: 500), () {
-          Navigator.pop(context);
-        });
-
-        isSetMenuData = true;
-
-        setstate();
-      },
-      actionLabel2: const Text("Set"),
-    );
+    Navigator.pop(context);
   }
 
   Future<String> uploadMenuItemImage({required String menuItemImage}) async {

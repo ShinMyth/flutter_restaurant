@@ -1,4 +1,3 @@
-import 'package:restaurant/data/menu_data.dart';
 import 'package:restaurant/screens/cart_screen/cart_screen_view.dart';
 import 'package:restaurant/screens/menu_screen/widgets/custom_menu.dart';
 import 'package:restaurant/screens/menu_screen/menu_screen_controller.dart';
@@ -17,16 +16,10 @@ class MenuScreenView extends StatefulWidget {
 
 class _MenuScreenViewState extends State<MenuScreenView> {
   late MenuScreenController controller;
-  late MenuData menuData;
 
   @override
   void initState() {
     controller = MenuScreenController(
-      setstate: () => setState(() {}),
-      context: context,
-    );
-
-    menuData = MenuData(
       setstate: () => setState(() {}),
       context: context,
     );
@@ -146,15 +139,6 @@ class _MenuScreenViewState extends State<MenuScreenView> {
                   style: TextStyle(
                     fontSize: 16.sp,
                   ),
-                ),
-              ),
-            ],
-            if (menuData.isSetMenuData == false) ...[
-              const Divider(),
-              ListTile(
-                title: ElevatedButton(
-                  onPressed: () => menuData.setMenuData(),
-                  child: const Text("Set Menu Data"),
                 ),
               ),
             ],
