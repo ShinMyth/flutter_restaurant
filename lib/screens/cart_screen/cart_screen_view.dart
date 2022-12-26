@@ -60,6 +60,8 @@ class _CartScreenViewState extends State<CartScreenView> {
                               controller.decrementQuantity(index: index),
                           incrementQuantity: () =>
                               controller.incrementQuantity(index: index),
+                          removeCartItem: () =>
+                              controller.removeCartItem(index: index),
                         );
                       },
                     ),
@@ -165,7 +167,7 @@ class _CartScreenViewState extends State<CartScreenView> {
                     ),
                   ] else ...[
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => controller.placeOrder(),
                       child: Text(
                         "Place Order",
                         style: TextStyle(

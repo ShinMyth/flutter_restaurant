@@ -1,7 +1,7 @@
 import 'package:restaurant/screens/cart_screen/cart_screen_view.dart';
 import 'package:restaurant/screens/menu_screen/widgets/custom_menu.dart';
 import 'package:restaurant/screens/menu_screen/menu_screen_controller.dart';
-import 'package:restaurant/screens/order_history_screen/order_history_screen_view.dart';
+import 'package:restaurant/screens/orders_screen/orders_screen_view.dart';
 import 'package:restaurant/screens/signin_screen/signin_screen_view.dart';
 import 'package:restaurant/services/firebase_authentication_service.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +113,7 @@ class _MenuScreenViewState extends State<MenuScreenView> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const OrderHistoryScreenView(),
+                      builder: (context) => const OrdersScreenView(),
                     ),
                   );
                 },
@@ -122,7 +122,7 @@ class _MenuScreenViewState extends State<MenuScreenView> {
                   color: Colors.black.withOpacity(0.8),
                 ),
                 title: Text(
-                  "Order History",
+                  "Orders",
                   style: TextStyle(
                     fontSize: 16.sp,
                   ),

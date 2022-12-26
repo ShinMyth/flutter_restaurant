@@ -84,6 +84,16 @@ class CartService {
     }
   }
 
+  Future<void> deleteCartItems() async {
+    try {
+      await db!.transaction((txn) async {
+        txn.delete("cart");
+      });
+    } catch (e) {
+      log("deleteCartItems: $e");
+    }
+  }
+
   Future<void> deleteCartItem({required CartItem cartItem}) async {
     try {
       await db!.transaction((txn) async {
