@@ -28,7 +28,6 @@ class _OrderDetailsScreenViewState extends State<OrderDetailsScreenView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 2.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +87,7 @@ class _OrderDetailsScreenViewState extends State<OrderDetailsScreenView> {
                     ),
                   ),
                   Text(
-                    "₱${widget.order.orderSubtotal}",
+                    "₱${widget.order.orderSubtotal.toStringAsFixed(2)}",
                     style: TextStyle(
                       fontSize: 16.sp,
                     ),
@@ -107,7 +106,7 @@ class _OrderDetailsScreenViewState extends State<OrderDetailsScreenView> {
                     ),
                   ),
                   Text(
-                    "₱${widget.order.orderTotal}",
+                    "₱${widget.order.orderTotal.toStringAsFixed(2)}",
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,

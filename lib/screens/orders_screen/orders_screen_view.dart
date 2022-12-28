@@ -31,24 +31,28 @@ class _OrdersScreenViewState extends State<OrdersScreenView> {
         title: const Text("Orders"),
         centerTitle: true,
       ),
-      body: controller.isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : controller.orders.isEmpty
-              ? const Center(
-                  child: Text("Orders Empty"),
-                )
-              : Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: controller.orders.length,
-                    itemBuilder: (context, index) {
-                      return CustomOrder(order: controller.orders[index]);
-                    },
+      body: RefreshIndicator(
+        onRefresh: () => controller.getOrdersData(),
+        child: controller.isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : controller.orders.isEmpty
+                ? const Center(
+                    child: Text("Orders Empty"),
+                  )
+                : Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: controller.orders.length,
+                      itemBuilder: (context, index) {
+                        return CustomOrder(order: controller.orders[index]);
+                      },
+                    ),
                   ),
-                ),
+      ),
     );
   }
 }
