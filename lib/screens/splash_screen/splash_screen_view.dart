@@ -20,7 +20,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     // Navigate to menu screen after 2.5 seconds
     Future.delayed(const Duration(milliseconds: 2500), () async {
       await controller.initializeSqfliteDatabase();
-      await controller.initializeSharedPreferences();
+      // await controller.initializeSharedPreferences();
 
       Navigator.pushReplacement(
         context,

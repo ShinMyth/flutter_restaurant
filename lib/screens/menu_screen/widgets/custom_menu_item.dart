@@ -27,9 +27,7 @@ class _CustomMenuItemState extends State<CustomMenuItem> {
       },
       child: Container(
         decoration: BoxDecoration(
-          border: widget.menuItem.menuItemImage.isEmpty
-              ? Border.all(color: Theme.of(context).primaryColor)
-              : null,
+          border: Border.all(color: Theme.of(context).primaryColor),
           borderRadius: BorderRadius.circular(15),
         ),
         clipBehavior: Clip.hardEdge,
@@ -41,6 +39,10 @@ class _CustomMenuItemState extends State<CustomMenuItem> {
                   : CachedNetworkImage(
                       imageUrl: widget.menuItem.menuItemImage,
                       fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Image.asset("assets/images/flutter-logo.png"),
+                      errorWidget: (context, url, error) =>
+                          Image.asset("assets/images/flutter-logo.png"),
                     ),
             ),
             Container(

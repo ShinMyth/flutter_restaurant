@@ -65,9 +65,7 @@ class _MenuItemScreenViewState extends State<MenuItemScreenView> {
           children: [
             Container(
               decoration: BoxDecoration(
-                border: widget.menuItem.menuItemImage.isEmpty
-                    ? Border.all(color: Theme.of(context).primaryColor)
-                    : null,
+                border: Border.all(color: Theme.of(context).primaryColor),
                 borderRadius: BorderRadius.circular(15),
               ),
               height: 30.h,
@@ -78,6 +76,10 @@ class _MenuItemScreenViewState extends State<MenuItemScreenView> {
                   : CachedNetworkImage(
                       imageUrl: widget.menuItem.menuItemImage,
                       fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Image.asset("assets/images/flutter-logo.png"),
+                      errorWidget: (context, url, error) =>
+                          Image.asset("assets/images/flutter-logo.png"),
                     ),
             ),
             SizedBox(height: 1.5.h),

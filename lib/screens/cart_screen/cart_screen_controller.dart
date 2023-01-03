@@ -141,7 +141,7 @@ class CartScreenController {
     QuerySnapshot<Map<String, dynamic>> value =
         await firestore.collection("orders").get();
 
-    return "O-${DateFormat('yyyyMMd').format(DateTime.now())}-0${value.docs.length + 1}";
+    return "O-${DateFormat('MMddyyyy').format(DateTime.now())}-0${value.docs.length + 1}";
   }
 
   Future<String> generateOrderItemID({required String orderID}) async {

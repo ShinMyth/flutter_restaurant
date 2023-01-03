@@ -14,12 +14,12 @@ class Menu {
     required this.menuItems,
   });
 
-  Map<String, dynamic> toFirestore() {
-    return {
-      "menuName": menuName,
-      "menuOrder": menuOrder,
-    };
-  }
+  // Map<String, dynamic> toFirestore() {
+  //   return {
+  //     "menuName": menuName,
+  //     "menuOrder": menuOrder,
+  //   };
+  // }
 
   factory Menu.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,

@@ -17,15 +17,15 @@ class MenuItem {
     required this.menuItemOrder,
   });
 
-  Map<String, dynamic> toFirestore() {
-    return {
-      "menuItemImage": menuItemImage,
-      "menuItemName": menuItemName,
-      "menuItemPrice": menuItemPrice,
-      "menuItemDescription": menuItemDescription,
-      "menuItemOrder": menuItemOrder,
-    };
-  }
+  // Map<String, dynamic> toFirestore() {
+  //   return {
+  //     "menuItemImage": menuItemImage,
+  //     "menuItemName": menuItemName,
+  //     "menuItemPrice": menuItemPrice,
+  //     "menuItemDescription": menuItemDescription,
+  //     "menuItemOrder": menuItemOrder,
+  //   };
+  // }
 
   factory MenuItem.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,

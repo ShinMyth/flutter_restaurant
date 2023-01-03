@@ -27,26 +27,6 @@ class CartService {
     }
   }
 
-  Future<void> insertCartItem({required CartItem cartItem}) async {
-    try {
-      List<CartItem> result = await queryCartItem(cartItem: cartItem);
-
-      if (result.isNotEmpty) {
-        cartItem.cartItemQuantity += result[0].cartItemQuantity;
-        cartItem.cartItemGrossTotal =
-            cartItem.cartItemPrice * cartItem.cartItemQuantity;
-
-        await updateCartItem(cartItem: cartItem);
-      } else {
-        await db!.transaction((txn) async {
-          txn.insert("cart", cartItem.toMap());
-        });
-      }
-    } catch (e) {
-      log("insertCartItem: $e");
-    }
-  }
-
   Future<List<CartItem>> queryCartItem({required CartItem cartItem}) async {
     try {
       List<Map<String, Object?>> result = await db!.query(
@@ -66,6 +46,26 @@ class CartService {
       log("queryCartItem: $e");
 
       return [];
+    }
+  }
+
+  Future<void> insertCartItem({required CartItem cartItem}) async {
+    try {
+      List<CartItem> result = await queryCartItem(cartItem: cartItem);
+
+      if (result.isNotEmpty) {
+        cartItem.cartItemQuantity += result[0].cartItemQuantity;
+        cartItem.cartItemGrossTotal =
+            cartItem.cartItemPrice * cartItem.cartItemQuantity;
+
+        await updateCartItem(cartItem: cartItem);
+      } else {
+        await db!.transaction((txn) async {
+          txn.insert("cart", cartItem.toMap());
+        });
+      }
+    } catch (e) {
+      log("insertCartItem: $e");
     }
   }
 

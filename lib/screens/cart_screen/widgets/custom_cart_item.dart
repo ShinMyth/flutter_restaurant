@@ -51,9 +51,10 @@ class _CustomCartItemState extends State<CustomCartItem> {
                     height: 20.w,
                     width: 20.w,
                     decoration: BoxDecoration(
-                      border: widget.cartItem.cartItemImage.isEmpty
-                          ? Border.all(color: Theme.of(context).primaryColor)
-                          : null,
+                      border: Border.all(
+                        color: Theme.of(context).primaryColor,
+                        width: 0.5,
+                      ),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     clipBehavior: Clip.hardEdge,
@@ -62,6 +63,10 @@ class _CustomCartItemState extends State<CustomCartItem> {
                         : CachedNetworkImage(
                             imageUrl: widget.cartItem.cartItemImage,
                             fit: BoxFit.cover,
+                            placeholder: (context, url) =>
+                                Image.asset("assets/images/flutter-logo.png"),
+                            errorWidget: (context, url, error) =>
+                                Image.asset("assets/images/flutter-logo.png"),
                           ),
                   ),
                   SizedBox(width: 3.w),
